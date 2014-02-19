@@ -1,4 +1,4 @@
-(require 'xfrp_find_replace_pairs)
+(require 'xfrp-find-replace-pairs)
 
 (defun html-entities-convert (string)
   "Replace html entities.
@@ -6,7 +6,7 @@ Example:
 (html-enetities-convert \"&gt\;\")
 => \">\"
 
-This function requires `xfrp_find_replace_pairs.el' to work."
+This function requires `xfrp-find-replace-pairs.el' to work."
   (replace-pairs-in-string string
                            [
                             ["&#39;" "'"]
