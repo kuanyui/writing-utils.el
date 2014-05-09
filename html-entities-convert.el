@@ -1,13 +1,12 @@
-(require 'xfrp-find-replace-pairs)
-
 (defun html-entities-convert (string)
   "Replace html entities.
 Example:
 (html-enetities-convert \"&gt\;\")
-=> \">\"
-
-This function requires `xfrp-find-replace-pairs.el' to work."
-  (replace-pairs-in-string string
+=> \">\""
+  (map 'array (lambda (x)
+    (if (string-match (aref x 0) string)
+        (setq string (replace-regexp-in-string (aref x 0) (aref x 1) string))
+    ))
                            [
                             ["&#39;" "'"]
                             ["&nbsp;" ""]
@@ -263,5 +262,6 @@ This function requires `xfrp-find-replace-pairs.el' to work."
                             ["&euro;" "€"]
                             ]
                            )
-  )
+string
+)
 (provide 'html-entities-convert)
