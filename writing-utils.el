@@ -5,7 +5,6 @@
 ;; twittering-share-link
 
 (require 'url)
-(require 'xfrp-find-replace-pairs)
 (require 'html-entities-convert)
 
 (defun url-get-page-title (url)
