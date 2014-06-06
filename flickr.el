@@ -119,6 +119,8 @@ And output is a pairs list for sizes and raw-link:
   (kill-buffer)
   fin)
 
-(define-key markdown-mode-map (kbd "C-c i f") 'flickr-insert-raw-link-with-html-tag)
+(define-key markdown-mode-map (kbd "C-c i f") 'flickr-insert-html)
+(define-key org-mode-map (kbd "C-c i f") 'flickr-insert-auto-format)
+(define-key html-mode-map (kbd "C-c i f") 'flickr-insert-auto-format)
 
 (provide 'flickr)
