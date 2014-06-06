@@ -7,6 +7,11 @@
 (require 'url)
 (require 'html-entities-convert)
 (require 'org)
+(require 'sgml-mode)
+(require 'markdown-mode)
+(require 'recentf)
+
+(add-to-list 'recentf-exclude "/tmp/url-retrieve-.+")
 
 (defun url-get-page-title (url)
   (let* ((temp-file (format "%s%s" "/tmp/url-retrieve-" (random))))
@@ -23,34 +28,59 @@
     (format "%s" url-gotten-page-title)
     (message (format "%s" url-gotten-page-title))))
 
-(defun markdown-insert-link-with-title ()
-  "Insert markdown link along with title, which grabbed via url.
+
+
+(defun insert-link-with-title ()
+  "Insert link along with title (grabbed via url).
+Format is determined by what major mode is being used currently.
+Currently support: Markdown/Org/HTML/Twittering
 If in beginning of a line, insert a - prefix as a list. For example:
+
+Markdown:
 - [The GNU Operating System](http://www.gnu.org/)
+Org:
+- [[http://www.gnu.org/][The GNU Operating System]]
 "
   (interactive)
-  (let* ((LINK (read-from-minibuffer "Page's URL: "))
-         (TITLE (url-get-page-title LINK)))
-    (if (not (equal 0 (current-column))) ;if not in the beginning of line,
-        (insert (format "[%s](%s)" TITLE LINK)) ;insert "[title](link)"
-      (progn (insert (format "- [%s](%s)" TITLE LINK))
-             (newline)))))  ;or insert "- [title](link)" and new line.
-(define-key markdown-mode-map (kbd "C-c i l") 'markdown-insert-link-with-title)
+  (let* ((LINK (if (boundp 'LINK)
+                   LINK
+                 (read-from-minibuffer "Page's URL: ")))
+         (TITLE (if (boundp 'TITLE)
+                    TITLE
+                  (url-get-page-title LINK))))
+    (cond ((eq major-mode 'markdown-mode)
+           (if (not (equal 0 (current-column))) ;if not in the beginning of line,
+               (insert (format "[%s](%s)" TITLE LINK)) ;insert "[title](link)"
+             (progn (insert (format "- [%s](%s)" TITLE LINK))
+                    (newline))))  ;or insert "- [title](link)" and new line.
+          ((eq major-mode 'org-mode)
+           (if (not (equal 0 (current-column)))
+               (insert (format "[[%s][%s]]" LINK TITLE))
+             (progn (insert (format "- [[%s][%s]]" LINK TITLE))
+                    (newline))))
+          ((eq major-mode 'html-mode)
+           (insert (format "<a href=\"%s\">%s</a>" LINK TITLE)))
+          ((eq major-mode 'twittering-edit-mode)
+           (insert (format "\"%s\"( %s ) // " TITLE LINK)))
+          (t
+           (let (major-mode)
+             (setq major-mode (intern (concat
+                                       (completing-read "Select a format: "
+                                                        '(("org")
+                                                          ("markdown" )
+                                                          ("html")
+                                                          ("twittering-edit"))
+                                                        nil t "" )
+                                       "-mode")))
+             (insert-link-with-title)))
+          )))
 
-(defun org-insert-link-with-title ()
-  "Insert org link along with title, which grabbed via url."
-  (interactive)
-  (let* ((LINK (read-from-minibuffer "Page's URL: "))
-         (TITLE (url-get-page-title LINK)))
-    (if (not (equal 0 (current-column))) ;if not in the beginning of line,
-        (insert (format "[[%s][%s]]" LINK TITLE))
-      (progn (insert (format "- [[%s][%s]]" LINK TITLE))
-             (newline)))))
-(define-key org-mode-map (kbd "C-c i l") 'org-insert-link-with-title)
+(define-key markdown-mode-map (kbd "C-c i l") 'insert-link-with-title)
+(define-key org-mode-map (kbd "C-c i l") 'insert-link-with-title)
+(define-key html-mode-map (kbd "C-c i l") 'insert-link-with-title)
 
 ;; If twittering-mode has been installed and loaded.
-(when (boundp 'twittering-mode-hook)
-  (require 'twittering-mode)
+(when (require 'twittering-mode nil 'no-error)
   (defun twittering-share-link ()
     "Share link with twittering-edit-mode buffer,
 and insert page's title automatically.
@@ -58,10 +88,10 @@ and insert page's title automatically.
 If major-mode is already twittering-edit-mode, insterting
 directly without opening a new buffer."
     (interactive)
-    (let* ((LINK (read-from-minibuffer "Page's URL: "))
-           (TITLE (url-get-page-title LINK)))
-      (if (not (equal major-mode 'twittering-edit-mode))
-          (twittering-update-status-interactive) nil)
-      (insert (format "\"%s\"( %s ) // " TITLE LINK))))
-  (define-key twittering-edit-mode-map (kbd "<f5>") 'twittering-share-link)
-  (define-key twittering-mode-map (kbd "<f5>") 'twittering-share-link))
+    (if (not (equal major-mode 'twittering-edit-mode))
+        (twittering-update-status-interactive) nil)
+      (insert-link-with-title))
+  (define-key twittering-edit-mode-map (kbd "C-c i l") 'insert-link-with-title)
+  (define-key twittering-mode-map (kbd "C-c i l") 'twittering-share-link))
+
+
