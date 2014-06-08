@@ -1,4 +1,7 @@
 ;; Flickr
+;;
+(require 'xml)
+
 (defvar flickr-api-key nil
   "This variable is used by `flickr-insert-raw-link-with-html-tag'.
 You can get a Flickr API:
@@ -43,10 +46,12 @@ And (setq flickr-api-key \"YOUR_API_KEY\")"
     ))
 
 (defun flickr-insert-auto-format ()
-  "Insert Flickr formatted raw link according to current mode. For example:
-- Markdown: ![](RAW)
-- Org: [[RAW]]
-- HTML: <a href=\"LINK\"><img src=\"RAWLINK\" alt=\"\" class=\"\"></img></a>"
+  "Insert the raw link of a Flickr page, formatted according to current mode.
+Input like: http://www.flickr.com/photos/41522078@N05/11529752404/
+For example:
+- HTML: <a href=\"http://www.flickr.com/photos/41522078@N05/11529752404/\"><img src=\"https://farm8.staticflickr.com/7420/11529799266_4e391575b0_z.jpg\" alt=\"\" class=\"\"></img></a>
+- Markdown: ![](https://farm8.staticflickr.com/7420/11529799266_4e391575b0_z.jpg)
+- Org: [[https://farm8.staticflickr.com/7420/11529799266_4e391575b0_z.jpg]]"
   (interactive)
   (let* ((raw (flickr-get-raw-link-interactively))
          (major-mode (if (member major-mode '(markdown-mode org-mode html-mode))
@@ -66,7 +71,7 @@ And (setq flickr-api-key \"YOUR_API_KEY\")"
 
 (defun flickr-process-whole-buffer ()
   (interactive)
-  
+
   )
 
 (defun flickr-get-raw-link-interactively (&optional input)
