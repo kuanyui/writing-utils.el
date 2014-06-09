@@ -5,8 +5,9 @@ Some small tools making editing, writing articles (especially blog articles) mor
 # Packages list
 - `writing-utils.el`
     - `M-up/down` to move current line up/down.
+    - `C-c d l` to duplicate current line.
     - `C-a` to back to indentation first.
-    - `M-x wc` to count English/Japanese/Chinese characters and words.
+    - `M-x wc` to count English/Japanese/Chinese characters and words, **except for comments, org document options/attributions**.
     - Minibuffer enhancement:
         - `C-a` twice to erase minibuffer, without kill-ring pollution.
         - `M-<backspace>` to delete path back to parent directory, without kill-ring pollution.
@@ -24,7 +25,7 @@ Some small tools making editing, writing articles (especially blog articles) mor
     - Create new post anywhere.
     - Move article between `_post/` and `_draft/`. 
     - Sort articles by their timestamp.
-    - Update article date by current time.
+    - Update article's date stamp by current time.
 
 - `html-entities-convert.el` convert html entities. e.g. `"&gt;" → ">"`
 
