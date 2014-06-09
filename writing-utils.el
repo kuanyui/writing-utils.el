@@ -4,12 +4,24 @@
 
 (require 'org)
 
+(defun duplicate-line ()
+  "Duplicate current line."
+  (interactive)
+  (let* ((text (buffer-substring-no-properties (point-at-bol) (point-at-eol)))
+         (cur-col (length (buffer-substring-no-properties (point-at-bol) (point)))))
+    ;; ^ Don't blame me for this way that looks ugly.  If I use only
+    ;; (current-column) to record position, a problem will occur when
+    ;; current line contains Chinese or Japanese, because they are
+    ;; multi-byte characters.
+    (end-of-line) (insert "\n" text)
+    (beginning-of-line) (right-char cur-col)))
+(global-set-key (kbd "C-c d l") 'duplicate-line)
+
 (defun move-current-line-up ()
   (interactive)
   (when (> (line-number-at-pos) 1)
-    (let ((cur-line (buffer-substring-no-properties (point-at-bol) (point-at-eol)))
+    (let ((cur-line (delete-and-extract-region (point-at-bol) (point-at-eol)))
           (cur-col (current-column)))
-      (delete-region (point-at-bol) (point-at-eol))
       (delete-char -1)
       (beginning-of-line)
       (insert cur-line "\n")
@@ -24,9 +36,8 @@
   (interactive)
   (when (not (eq (line-number-at-pos)
                  (count-lines (point-min) (point-max))))
-    (let ((cur-line (buffer-substring-no-properties (point-at-bol) (point-at-eol)))
+    (let ((cur-line (delete-and-extract-region (point-at-bol) (point-at-eol)))
           (cur-col (current-column)))
-      (delete-region (point-at-bol) (point-at-eol))
       (delete-char 1)
       (forward-line 1)
       (insert cur-line "\n")
@@ -37,13 +48,14 @@
 (define-key org-mode-map (kbd "M-<down>") 'org-metadown)
 (define-key org-mode-map (kbd "ESC <down>") 'org-metadown)
 
-;; Known bug when bottom of buffer lacks of a newline.  But I don't
+;; [Known bug] when bottom of buffer lacks of a newline.  But I don't
 ;; want to deal with it because as you save-buffer, Emacs add a new
 ;; line in the bottom of buffer.
+;; http://www.emacswiki.org/emacs/MoveLine
+;; This one has the same bug.
 
 ;; Improved C-a
-;; [FIXME] 要不要再加上按三次變成插入新行啊=w=
-(defun smart-beginning-of-line ()
+(defun beginning-of-line-or-indentation ()
   "If current line indented, go to indented position, or go to
   beginning-of-line. Press second time, go to beginning-of-line
   whatever. "
@@ -55,7 +67,7 @@
     (if (eq (point) indent-pos)
         (beginning-of-line)
       (back-to-indentation))))
-(global-set-key (kbd "C-a") 'smart-beginning-of-line)
+(define-key prog-mode-map (kbd "C-a") 'beginning-of-line-or-indentation)
 
 ;; Enhanced minibuffer & find-file! 加強minibuffer和find-file！我一直
 ;; 無法忍受helm和ido-mode的find-file設計，但又覺得他們有部份功能實在很
@@ -157,6 +169,5 @@ delete backward until the parent directory."
 中英文合計（不含標點）：%s"
              chinese-char chinese-char-and-punc english-word
              (+ chinese-char english-word)))))
-
 
 (provide 'writing-utils)
