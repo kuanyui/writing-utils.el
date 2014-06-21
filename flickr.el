@@ -22,8 +22,8 @@ When nil, it ask you for raw image size everytime.
   "Set variable `flickr-default-size' interactively."
   (interactive)
   (setq flickr-default-size
-        (completing-read "Input size: "
-                         '("nil" "large" "large1600" "large2048" "largesquare" "medium" "medium640" "medium800" "original" "small" "small320" "square" "thumbnail") nil nil nil)))
+         (completing-read "Input size: "
+                          '(nil large large1600 large2048 largesquare medium medium640 medium800 original small small320 square thumbnail) nil nil nil)))
 
 (defun flickr-insert-html ()
   "Insert the raw link of a Flickr page ,with HTML tags attached.
@@ -84,11 +84,11 @@ Output is a list like (INPUT . RAWLINK)."
                       input
                     (read-from-minibuffer "Flickr url: ")))
            (size-list (flickr-parse-xml (flickr-retrieve-xml input)))
-           (specify-size (intern flickr-default-size)))
+           (specify-size flickr-default-size))
       (when (or (equal current-prefix-arg '(4))
                 (null specify-size)
                 (not (assq specify-size size-list)))
-        (setq specify-size (intern (completing-read "Select size: " size-list nil nil nil))))
+        (setq specify-size (intern (completing-read "Select size: " size-list nil t nil))))
       (cons input (cdr (assq specify-size size-list))))))
 
 
