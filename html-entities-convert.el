@@ -8,7 +8,10 @@ Example:
         (setq string (replace-regexp-in-string (aref x 0) (aref x 1) string))
     ))
                            [
+                            ["&#12304;" "【"]
+                            ["&#12305;" "】"]
                             ["&#39;" "'"]
+                            ["&#45;" "-"]
                             ["&nbsp;" ""]
                             ["&iexcl;" "¡"]
                             ["&cent;" "¢"]
