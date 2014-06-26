@@ -48,6 +48,18 @@
 (define-key org-mode-map (kbd "M-<down>") 'org-metadown)
 (define-key org-mode-map (kbd "ESC <down>") 'org-metadown)
 
+(defun copy-current-line ()
+  "Copy current line into kill-ring."
+  (interactive)
+  (kill-new (buffer-substring-no-properties (point-at-bol) (point-at-eol)))
+  (message "Line copied."))
+(global-set-key (kbd "C-c M-w") 'copy-current-line)
+
+(defun indent-buffer ()
+  "Similiar to C-M-\\, but indent the whole buffer."
+  (interactive)
+  (indent-region (point-min) (point-max)))
+
 ;; [Known bug] when bottom of buffer lacks of a newline.  But I don't
 ;; want to deal with it because as you save-buffer, Emacs add a new
 ;; line in the bottom of buffer.
@@ -67,7 +79,6 @@
     (if (eq (point) indent-pos)
         (beginning-of-line)
       (back-to-indentation))))
-(define-key prog-mode-map (kbd "C-a") 'beginning-of-line-or-indentation)
 
 ;; Enhanced minibuffer & find-file! 加強minibuffer和find-file！我一直
 ;; 無法忍受helm和ido-mode的find-file設計，但又覺得他們有部份功能實在很
@@ -116,7 +127,7 @@ delete backward until the parent directory."
 
 ;; 統計中英日文字數
 (defvar wc-regexp-chinese-char-and-punc
-      (rx (category chinese)))
+  (rx (category chinese)))
 (defvar wc-regexp-chinese-punc
   "[。，！？；：「」『』（）、【】《》〈〉※—]")
 (defvar wc-regexp-english-word
@@ -138,7 +149,7 @@ delete backward until the parent directory."
           (progn
             (if (eq major-mode 'org-mode) ; 去掉org文件的OPTIONS（以#+開頭）
                 (setq v-buffer-string (replace-regexp-in-string "^#\\+.+" ""
-                                       (buffer-substring-no-properties (point-min) (point-max))))
+                                                                (buffer-substring-no-properties (point-min) (point-max))))
               (setq v-buffer-string (buffer-substring-no-properties (point-min) (point-max))))
             (replace-regexp-in-string (format "^ *%s *.+" comment-start) "" v-buffer-string)))
                                         ; 把註解行刪掉（不把註解算進字數）。

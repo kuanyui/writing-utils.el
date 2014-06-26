@@ -12,17 +12,20 @@
     (insert (format "<span class=\"note\">%s<span class=\"content\">%s</span></span>" title content))))
 (define-key markdown-mode-map (kbd "C-c i n") 'html-insert-inline-note)
 
-
 (defun html-insert-strike (begin end)
   (interactive "r")
-  (let* ((text (if (region-active-p)
-                    (buffer-substring-no-properties begin end)
-                  (read-from-minibuffer "Content: "))))
-    (when (region-active-p)
-      (delete-region begin end)
-      (goto-char begin))
-    (insert (format "<strike>%s</strike>" text))))
+  (if (region-active-p)
+      (let ((text (buffer-substring-no-properties begin end)))
+        (delete-region begin end)
+        (goto-char begin)
+        (insert (format "<strike>%s</strike>" text)))
+    (insert "<strike>"(read-from-minibuffer "Striked text: ")"</strike>")))
 (define-key markdown-mode-map (kbd "C-c i s") 'html-insert-strike)
+
+(defface html-strike '((((class color) (background light)) (:foreground "#626262"))
+                       (((class color) (background dark)) (:foreground "#626262"))) "" :group 'faces)
+(font-lock-add-keywords 'markdown-mode '(("<strike>.*?</strike>" . 'html-strike)))
+
 
 
 (defface markdown-ruby-mark '((((class color) (background light)) (:foreground "#fff" :background "#6c0099"))
@@ -37,3 +40,6 @@
                             ("\{rb\|\\(.+?\\)\|.+?\}" 1 'markdown-ruby-title)
                             ("\{rb\|.+?\|\\(.+?\\)\}" 1 'markdown-ruby-content)
                             ))
+
+
+(provide 'markdown-and-html)
