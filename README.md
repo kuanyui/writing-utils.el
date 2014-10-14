@@ -35,6 +35,8 @@ Some small tools making editing, writing articles (especially blog articles) mor
 - `M-x hexo-move-article` Move article between `_post/` and `_draft/`. 
 - `M-x hexo-touch-files-in-dir-by-time` Sort articles by their timestamp.
 - `M-x hexo-update-current-article-date` Update article's date stamp by current time.
+- `M-x hexo-toc-insert` Insert TOC (Table of Contents) for current article.
+- `M-x hexo-toc-remove` Remove TOC.
 
 ## html-entities-convert.el
 library to convert html entities. e.g. `"&gt;" → ">"`
