@@ -35,12 +35,15 @@ Some small tools making editing, writing articles (especially blog articles) mor
 - `M-x hexo-new`Create new post anywhere.
 - `M-x hexo-move-article` Move article between `_post/` and `_draft/`. 
 - `M-x hexo-touch-files-in-dir-by-time` Sort articles by their timestamp.
-- `M-x hexo-update-current-article-date` Update article's date stamp by current time.
-- `M-x hexo-toc-insert` Insert TOC (Table of Contents) for current article.
-- `M-x hexo-toc-remove` Remove TOC.
+- `M-x hexo-update-current-article-date` Update article's date stamp by current time. **This may change its permanent link!**
 
 ## html-entities-convert.el
 library to convert html entities. e.g. `"&gt;" → ">"`
+
+## markdown-toc.el
+Generate TOC (Table of Contents) with inline CSS styled for markdown file:
+- `M-x markdown-toc-insert` Generate and insert/update TOC for current article.
+- `M-x markdown-toc-remove` Remove TOC.
 
 ## markdown-and-html.el
 >The name and usage of this package are still not determined ˊ・ω・ˋ.
