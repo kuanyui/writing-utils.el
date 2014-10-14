@@ -1,5 +1,17 @@
 # writing-utils
 Some small tools making editing, writing articles (especially blog articles) more conveniently in Emacs.
+# Installation
+Clone this repo and add path, then `require` packages you want:
+
+```lisp
+(add-to-list 'load-path "~/.emacs.d/lisp/writing-utils/")
+(require 'writing-utils)
+(require 'page-title)
+(require 'hexo)
+(require 'flickr)
+(require 'markdown-toc)
+(require 'markdown-and-html)
+```
 
 # Packages list
 ## writing-utils.el
@@ -44,6 +56,13 @@ library to convert html entities. e.g. `"&gt;" → ">"`
 Generate TOC (Table of Contents) with inline CSS styled for markdown file:
 - `M-x markdown-toc-insert` Generate and insert/update TOC for current article.
 - `M-x markdown-toc-remove` Remove TOC.
+
+You can customize style like this:
+```lisp
+(setq markdown-toc-header-and-footer-html
+  ["<div id=\"text-table-of-contents\" style='background-color:#f0f0f7;border-left:5px solid #568DBE;padding:10px 20px;margin:1em 0;display:table;'><h3 style='color:#505050;margin-top:10px !important;'>Contents</h3>"
+   "</div>"])
+```
 
 ## markdown-and-html.el
 >The name and usage of this package are still not determined ˊ・ω・ˋ.
