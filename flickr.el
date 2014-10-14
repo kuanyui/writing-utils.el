@@ -1,6 +1,7 @@
 ;; Flickr
 ;;
 (require 'xml)
+(require 'url)
 
 (defvar flickr-api-key nil
   "This variable is used by `flickr-insert-raw-link-with-html-tag'.
@@ -61,7 +62,7 @@ For example:
       (cond ((eq major-mode 'markdown-mode)
              (insert (format "![](%s)" (cdr raw))))
             ((eq major-mode 'org-mode)
-             (insert (format "- [[%s]]" (cdr raw))))
+             (insert (format "[[%s]]" (cdr raw))))
             ((eq major-mode 'html-mode)
              (insert (format "<a href=\"%s\"><img src=\"%s\" alt=\"\" class=\"\"></img></a>" (car raw) (cdr raw))))))
     (when (eq (current-column) 0)
