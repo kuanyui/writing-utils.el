@@ -1,6 +1,5 @@
 # writing-utils
 Some small tools making editing, writing articles (especially blog articles) more conveniently in Emacs.
-> This package is still under developing, do not use.
 
 # Packages list
 ## writing-utils.el
@@ -22,6 +21,8 @@ Some small tools making editing, writing articles (especially blog articles) mor
 
 ## flickr.el
 `C-c i f` in markdown/org/html-mode to retrieve, format and insert flickr photo raw link conveniently.
+
+> Notice: This function currently cannot retrieve your private photos.
 
 ## page-title
 - One key `C-c i l` to retrieve the title of HTML file via its URL, and insert to:
@@ -47,4 +48,8 @@ library to convert html entities. e.g. `"&gt;" → ">"`
 - `M-x html-insert-strike` (or `C-c i s` in markdown-mode) to insert `<strike>text</strike>`.
 
 # License
-WTFPL 1.0
+WTFPL 2.0
+
+kuanyui (ɔ) Copyleft 2014
+
+This program is free software. It comes without any warranty, to the extent permitted by applicable law. You can redistribute it and/or modify it under the terms of the Do What The Fuck You Want To Public License, Version 2, as published by Sam Hocevar. See http://www.wtfpl.net/ for more details.
