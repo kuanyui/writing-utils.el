@@ -19,6 +19,19 @@ if not exist, it will ask for your size choice.
 When nil, it ask you for raw image size everytime.
 ")
 
+(defvar flickr-use-curl nil
+  "If non-nil, call shell command `curl` to retrieve data.
+If nil, use `url.el' to do this.
+
+If `curl` installed on your system, it's recommended to setq this to t,
+because `url-retrieve' occurs GnuTLS error very often in our some testing.")
+
+(if (and (executable-find "curl")
+         (not (equal system-type 'ms-dos))
+         (not (equal system-type 'windows-nt)))
+    (setq flickr-use-curl t))
+
+
 (defun flickr-set-default-size ()
   "Set variable `flickr-default-size' interactively."
   (interactive)
@@ -116,9 +129,21 @@ And output is a pairs list for sizes and raw-link:
   "Input should be a flickr url, output is a raw XML string retrieve with Flickr API"
   (interactive)
   (string-match "https?://www.flickr.com/photos/[0-9A-z@]*/\\([0-9]+\\)/" flickr-url)
-  (switch-to-buffer
-   (url-retrieve-synchronously
-    (format "https://www.flickr.com/services/rest/?method=flickr.photos.getSizes&photo_id=%s&api_key=%s" (match-string 1 flickr-url) flickr-api-key)))
+
+  (if flickr-use-curl
+      (progn
+	(switch-to-buffer (generate-new-buffer "curl-"))
+	(save-excursion
+	  (insert (shell-command-to-string
+		   (format "curl 'https://www.flickr.com/services/rest/?method=flickr.photos.getSizes&photo_id=%s&api_key=%s' 2>/dev/null"
+			   (match-string 1 flickr-url)
+			   flickr-api-key)))))
+
+    (switch-to-buffer
+     (url-retrieve-synchronously
+      (format "https://www.flickr.com/services/rest/?method=flickr.photos.getSizes&photo_id=%s&api_key=%s"
+	      (match-string 1 flickr-url)
+	      flickr-api-key))))
   (goto-char (point-min))
   (re-search-forward "<sizes" nil :no-error)(left-char 6)
   (setq fin (xml-parse-region (point) (point-max)))
