@@ -10,19 +10,20 @@
 (require 'sgml-mode)
 (require 'markdown-mode)
 (require 'recentf)
+(require 'avoid-url-el)
 
 (add-to-list 'recentf-exclude "/tmp/url-retrieve-.+")
 
-(defun url-get-page-title (url)
+(defun page-title-retrieve (url)
   (let* ((temp-file (format "%s%s" "/tmp/url-retrieve-" (random))))
-    (url-copy-file url temp-file)
+    (wget url temp-file)
     (find-file temp-file)
     (goto-char (point-min))
     (re-search-forward "\<title\>\\(\\(:?.\\|\n\\)*?\\)\</title\>" nil :no-error)
     (setq url-gotten-page-title (html-entities-convert (match-string 1)))
                                         ;convert html entities
     (setq url-gotten-page-title (replace-regexp-in-string "\n" "" url-gotten-page-title))
-                                       ; remove \n in title
+					; remove \n in title
     (kill-buffer)
     (delete-file temp-file)
     (format "%s" url-gotten-page-title)
@@ -47,7 +48,7 @@ Org:
                  (read-from-minibuffer "Page's URL: ")))
          (TITLE (if (boundp 'TITLE)
                     TITLE
-                  (url-get-page-title LINK))))
+                  (page-title-retrieve LINK))))
     (cond ((eq major-mode 'markdown-mode)
            (if (not (equal 0 (current-column))) ;if not in the beginning of line,
                (insert (format "[%s](%s)" TITLE LINK)) ;insert "[title](link)"
