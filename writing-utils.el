@@ -126,7 +126,32 @@ delete backward until the parent directory."
 (define-key minibuffer-local-completion-map (kbd "C-a") 'minibuffer-beginning-of-line)
 (define-key minibuffer-local-completion-map (kbd "M-DEL") 'minibuffer-backward-delete-word)
 
+;; ======================================================
+;; Insert commented seperator like this line
+;; ======================================================
+(defun insert-commented-separator()
+  "Insert a commented separator in your code. Like this in
+ELisp:
+;; ======================================================
+;; Title
+;; ======================================================
+Which makes code easier to read.
+"
+  (interactive)
+  (let* ((line (make-string 54 (string-to-char "=")))
+	 (comment-start (if (member major-mode '(emacs-lisp-mode lisp-mode))
+			    ";; " comment-start))
+	 (seperator (concat comment-start line)))
+    (when (> (current-column) 0) (end-of-line) (newline))
+    (insert (format "%s\n%s\n%s"
+		    seperator comment-start seperator))
+    (previous-line)
+    ))
+(global-set-key (kbd "C-c i M-;") 'insert-commented-separator)
+
+;; ======================================================
 ;; 統計中英日文字數
+;; ======================================================
 (defvar wc-regexp-chinese-char-and-punc
   (rx (category chinese)))
 (defvar wc-regexp-chinese-punc
