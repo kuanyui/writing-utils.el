@@ -118,9 +118,10 @@ And output is a pairs list for sizes and raw-link:
   (interactive)
   (string-match "https?://www.flickr.com/photos/[0-9A-z@]*/\\([0-9]+\\)/" flickr-url)
 
-  (curl-get "https://www.flickr.com/services/rest/?method=flickr.photos.getSizes&photo_id=%s&api_key=%s"
-	    (match-string 1 flickr-url)
-	    flickr-api-key)
+  (curl-get (format
+	     "https://www.flickr.com/services/rest/?method=flickr.photos.getSizes&photo_id=%s&api_key=%s"
+	     (match-string 1 flickr-url)
+	     flickr-api-key))
   (goto-char (point-min))
   (re-search-forward "<sizes" nil :no-error)(left-char 6)
   (setq fin (xml-parse-region (point) (point-max)))
