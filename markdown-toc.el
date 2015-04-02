@@ -51,6 +51,34 @@ Note this is only for format."
    '("`" "\\*" "_"))
   string)
 
+;; ======================================================
+;; TOC for GitHub
+;; ======================================================
+
+(defun markdown-github-insert-toc ()
+  (interactive)
+  (let* ((fin "")
+	 pos)
+    (save-excursion
+      (goto-char (point-min))
+      (replace-regexp "^>\\*\\*Table of Contents\\*\\*\n\\(?:.\\|\n\\)*?\n\n" "")
+      (setq pos (point)))
+    (goto-char (point-min))
+    (while (re-search-forward "^\\(\\#+\\) \\(.+\\)" nil :no-error)
+      (let* ((depth (length (match-string 1)))
+	     (name (match-string 2)))
+	(setq fin (concat fin (format "%s- [%s](#%s)\n"
+				      (make-string (* 2 (1- depth)) 32)
+				      name
+				      (replace-regexp-in-string
+				       " " "-"
+				       (replace-regexp-in-string
+					"[^A-z0-9- ]" "" (downcase name)))
+				      )))))
+    (goto-char pos)
+    (insert (format ">**Table of Contents**\n%s\n" fin))))
+
+
 
 (provide 'markdown-toc)
 ;;; markdown-toc.el ends here
