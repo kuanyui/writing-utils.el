@@ -150,6 +150,15 @@ Which makes code easier to read.
 (global-set-key (kbd "C-c i M-;") 'insert-commented-separator)
 
 ;; ======================================================
+;; Insert file path
+;; ======================================================
+
+(defun insert-file-path()
+  (interactive)
+  (insert (read-file-name "File Path: ")))
+(global-set-key (kbd "C-c i p") 'insert-file-path)
+
+;; ======================================================
 ;; 統計中英日文字數
 ;; ======================================================
 (defvar wc-regexp-chinese-char-and-punc
