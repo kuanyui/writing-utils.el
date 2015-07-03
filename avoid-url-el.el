@@ -27,7 +27,7 @@ after using."
 	   (switch-to-buffer (generate-new-buffer "curl-"))
 	   (save-excursion
 	     (insert (shell-command-to-string
-		      (format "curl '%s' 2>/dev/null" ,url)))))
+		      (format "curl -L '%s' 2>/dev/null" ,url)))))
 
        (switch-to-buffer
 	(url-retrieve-synchronously ,url)))
