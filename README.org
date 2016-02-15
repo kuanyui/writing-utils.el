@@ -44,8 +44,8 @@ Clone this repo and add path, then =require= packages you want:
 
 ** minibuffer-enhancements.el
 - =C-a= twice to erase minibuffer, without kill-ring pollution.
-- =M-<backspace>= to delete path back to parent directory, without kill-ring pollution.
-- =<backtab> (Shift-tab)= to jump into =*Completions*= forcely.
+- =M-<backspace>= to delete path back to parent directory, without the pollution to kill-ring.
+- =<backtab> (Shift-tab)= to jump into =*Completions*= buffer forcely.
 ** flickr.el
 =C-c i f= in markdown/org/html-mode to retrieve, format and insert flickr photo raw link conveniently.
 

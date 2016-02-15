@@ -20,19 +20,22 @@
 
 ;;; Commentary:
 
-;; 
-
 ;;; Code:
-;; [English]
-;; Enhanced minibuffer & find-file!
-;;
+;; [English] Enhanced minibuffer & find-file!  I cannot bear helm &
+;; ido-mode's UI, but theirs some features are very juicy. So:
+
+;;   1. If minibuffer contains a file path, M-[DEL] to delete back to
+;;   parent dir
+;;   2. Press C-a is the normal C-a, but when you press it 2-times:
+;;       (a) if a file path, delete all except for ~/ or /
+;;       (b) if not a file path, delete the whole line.
+;;   3. Above actions won't pollute kill-ring. So feel free to use them!
 
 ;; [Chinese]
 ;; 加強minibuffer和find-file
 
 ;; 我實在無法忍受helm和ido-mode的find-file設計，但又覺得他們有部份功能
-;; 實在很方便，例如能夠按DEL直接刪回上個目錄的路徑，或者整個路徑重新輸
-;; 入等。這裡做了幾個符合自己需要的功能：
+;; 實在很方便，所以：
 
 ;;   1. 如果minibuffer中是個目錄的樣式，按M-[DEL]就可以往前刪到parent dir
 ;;   2. 按一次C-a只是一般的beginning-of-line，但按第二次C-a的話：
