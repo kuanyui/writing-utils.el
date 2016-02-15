@@ -6,6 +6,7 @@ Clone this repo and add path, then =require= packages you want:
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'load-path "~/.emacs.d/lisp/writing-utils/")
 (require 'writing-utils)
+(require 'minibuffer-enhancements)
 (require 'page-title)
 (require 'hexo)
 (require 'flickr)
@@ -41,10 +42,10 @@ Clone this repo and add path, then =require= packages you want:
 *** Count Words
 - =M-x wc= to count English/Japanese/Chinese characters and words, *except for comments, org document options/attributions*.
 
-*** Minibuffer Enhancement:
+** minibuffer-enhancements.el
 - =C-a= twice to erase minibuffer, without kill-ring pollution.
 - =M-<backspace>= to delete path back to parent directory, without kill-ring pollution.
-
+- =<backtab> (Shift-tab)= to jump into =*Completions*= forcely.
 ** flickr.el
 =C-c i f= in markdown/org/html-mode to retrieve, format and insert flickr photo raw link conveniently.
 
