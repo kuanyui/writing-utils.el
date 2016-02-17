@@ -8,7 +8,6 @@ Clone this repo and add path, then =require= packages you want:
 (require 'writing-utils)
 (require 'minibuffer-enhancements)
 (require 'page-title)
-(require 'hexo)
 (require 'flickr)
 (require 'markdown-toc)
 (require 'markdown-and-html)
@@ -61,12 +60,7 @@ Notice: This function currently cannot retrieve your private photos.
     - =twittering-mode= buffer.
 
 ** hexo.el
-- =M-x hexo-new= Create new post anywhere.
-- =M-x hexo-move-article= Move article between =_post/= and =_draft/=.
-- =M-x hexo-insert-article-link= Insert a link to specific article in =_posts/=.
-- =M-x hexo-touch-files-in-dir-by-time= Sort articles by their timestamp.
-- =M-x hexo-update-current-article-date= Update article's date stamp by current time. **This may change its permanent link!**
-
+This has been splited as an independent package. See [[https://github.com/kuanyui/hexo.el][hexo.el]].
 ** html-entities-convert.el
 library to convert html entities. e.g. ="&gt;" → ">"=
 
