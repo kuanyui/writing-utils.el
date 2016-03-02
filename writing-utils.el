@@ -171,4 +171,13 @@ Which makes code easier to read.
              chinese-char chinese-char-and-punc english-word
              (+ chinese-char english-word)))))
 
+(defun zh-simplified-to-tranditional ()
+  "Use iconv to convert simplified Chinese to traditional Chinese"
+  (interactive)
+  (shell-command-on-region (region-beginning) (region-end)
+                           "iconv -f utf8 -t gb2312 | iconv -f gb2312 -t big5 | iconv -f big5 -t utf8"
+                           nil
+                           t
+                           ))
+
 (provide 'writing-utils)
