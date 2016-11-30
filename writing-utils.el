@@ -103,6 +103,7 @@ Which makes code easier to read.
     (previous-line)
     ))
 (global-set-key (kbd "C-c i M-;") 'insert-commented-separator)
+(global-set-key (kbd "C-c M-;") 'insert-commented-separator)
 
 ;; ======================================================
 ;; Insert file path
