@@ -24,7 +24,10 @@
 
 (defface html-strike '((((class color) (background light)) (:foreground "#626262"))
                        (((class color) (background dark)) (:foreground "#626262"))) "" :group 'faces)
-(font-lock-add-keywords 'markdown-mode '(("<strike>.*?</strike>" . 'html-strike)))
+(font-lock-add-keywords 'markdown-mode
+                        '(("<strike>.*?</strike>" . 'html-strike)
+                          ("\\(<span class=\"note\">\\).*?\\(<span class=\"content\"></span></span>\\)" . 'html-strike)
+                          ))
 
 
 
