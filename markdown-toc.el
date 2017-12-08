@@ -73,12 +73,13 @@ Note this is only for format."
 				      (replace-regexp-in-string
 				       " " "-"
 				       (replace-regexp-in-string
-					"[^A-z0-9- ]" "" (downcase name)))
+					"[^-A-z0-9 ]" ""
+                                        (replace-regexp-in-string
+                                         "[][^]" ""
+                                         (downcase name))))
 				      )))))
     (goto-char pos)
     (insert (format ">**Table of Contents**\n%s\n" fin))))
-
-
 
 (provide 'markdown-toc)
 ;;; markdown-toc.el ends here
