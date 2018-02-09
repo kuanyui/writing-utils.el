@@ -22,8 +22,7 @@
     (re-search-forward "\<title\>\\(\\(:?.\\|\n\\)*?\\)\</title\>" nil :no-error)
     (setq url-gotten-page-title (html-entities-convert (match-string 1)))
                                         ;convert html entities
-    (setq url-gotten-page-title (replace-regexp-in-string "\n" "" url-gotten-page-title))
-					; remove \n in title
+    (setq url-gotten-page-title (replace-regexp-in-string "[\n]" "" url-gotten-page-title))
     (kill-buffer)
     (delete-file temp-file)
     (format "%s" url-gotten-page-title)
