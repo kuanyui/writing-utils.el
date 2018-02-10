@@ -54,7 +54,7 @@ Note this is only for format."
 ;; ======================================================
 ;; TOC for GitHub
 ;; ======================================================
-
+(defalias 'markdown-toc-github-insert 'markdown-github-insert-toc)
 (defun markdown-github-insert-toc ()
   (interactive)
   (let* ((fin "")
