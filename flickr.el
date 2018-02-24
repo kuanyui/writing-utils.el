@@ -24,8 +24,8 @@ When nil, it ask you for raw image size everytime.
   "Set variable `flickr-default-size' interactively."
   (interactive)
   (setq flickr-default-size
-         (completing-read "Input size: "
-                          '(nil large large1600 large2048 largesquare medium medium640 medium800 original small small320 square thumbnail) nil nil nil)))
+        (intern (completing-read "Input size: "
+                                 '(nil large large1600 large2048 largesquare medium medium640 medium800 original small small320 square thumbnail) nil nil nil))))
 
 (defun flickr-insert-html ()
   "Insert the raw link of a Flickr page ,with HTML tags attached.
