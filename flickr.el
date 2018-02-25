@@ -59,16 +59,13 @@ For example:
          (major-mode (if (member major-mode '(markdown-mode org-mode html-mode))
                          major-mode
                        (intern (concat (completing-read "Select a format: " '("org" "markdown" "html") nil t "" ) "-mode")))))
-    (save-excursion
-      (cond ((eq major-mode 'markdown-mode)
-             (insert (format "![](%s)" (cdr raw))))
-            ((eq major-mode 'org-mode)
-             (insert (format "[[%s]]" (cdr raw))))
-            ((eq major-mode 'html-mode)
-             (insert (format "<a href=\"%s\"><img src=\"%s\" alt=\"\" class=\"\"></img></a>" (car raw) (cdr raw))))))
-    (when (eq (current-column) 0)
-      (end-of-line)
-      (newline))
+    (cond ((eq major-mode 'markdown-mode)
+           (insert (format "![](%s)" (cdr raw))))
+          ((eq major-mode 'org-mode)
+           (insert (format "[[%s]]" (cdr raw))))
+          ((eq major-mode 'html-mode)
+           (insert (format "<a href=\"%s\"><img src=\"%s\" alt=\"\" class=\"\"></img></a>\n" (car raw) (cdr raw)))
+           (forward-char -22)))
     ))
 
 (defun flickr-process-whole-buffer ()
