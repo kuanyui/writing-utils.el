@@ -15,6 +15,7 @@
     ;; multi-byte characters.
     (end-of-line) (insert "\n" text)
     (beginning-of-line) (right-char cur-col)))
+(global-set-key (kbd "C-c l") 'duplicate-line)  ;; VSCode style
 (global-set-key (kbd "C-c d l") 'duplicate-line)
 
 (defun move-current-line-up ()
