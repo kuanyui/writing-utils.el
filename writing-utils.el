@@ -2,7 +2,12 @@
 ;; Author: kuanyui (azazabc123@gmail.com)
 ;; ========================================================================
 
-(require 'org)
+(with-eval-after-load 'org
+  (define-key org-mode-map (kbd "M-<up>") 'org-metaup)
+  (define-key org-mode-map (kbd "ESC <up>") 'org-metaup)
+  (define-key org-mode-map (kbd "M-<down>") 'org-metadown)
+  (define-key org-mode-map (kbd "ESC <down>") 'org-metadown)
+  )
 
 (defun duplicate-line ()
   "Duplicate current line."
@@ -31,9 +36,6 @@
       (goto-char (+ cur-col (point-at-bol))))))
 (global-set-key (kbd "M-<up>") 'move-current-line-up)
 (global-set-key (kbd "ESC <up>") 'move-current-line-up)
-(define-key org-mode-map (kbd "M-<up>") 'org-metaup)
-(define-key org-mode-map (kbd "ESC <up>") 'org-metaup)
-
 (defun move-current-line-down ()
   (interactive)
   (when (not (eq (line-number-at-pos)
@@ -47,8 +49,6 @@
       (goto-char (+ cur-col (point-at-bol))))))
 (global-set-key (kbd "M-<down>") 'move-current-line-down)
 (global-set-key (kbd "ESC <down>") 'move-current-line-down)
-(define-key org-mode-map (kbd "M-<down>") 'org-metadown)
-(define-key org-mode-map (kbd "ESC <down>") 'org-metadown)
 
 (defun copy-current-line ()
   "Copy current line into kill-ring."

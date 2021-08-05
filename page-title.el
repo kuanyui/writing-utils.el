@@ -6,13 +6,11 @@
 
 (require 'url)
 (require 'html-entities-convert)
-(require 'org)
-(require 'sgml-mode)
-(require 'markdown-mode)
-(require 'recentf)
 (require 'avoid-url-el)
 
-(add-to-list 'recentf-exclude "/tmp/url-retrieve-.+")
+(with-eval-after-load 'recentf
+  (add-to-list 'recentf-exclude "/tmp/url-retrieve-.+")
+  )
 
 (defun page-title-retrieve (url)
   (let* ((temp-file (format "%s%s" "/tmp/url-retrieve-" (random))))
@@ -75,12 +73,12 @@ Org:
              (insert-link-with-title)))
           )))
 
-(define-key markdown-mode-map (kbd "C-c i l") 'insert-link-with-title)
-(define-key org-mode-map (kbd "C-c i l") 'insert-link-with-title)
-(define-key html-mode-map (kbd "C-c i l") 'insert-link-with-title)
+(with-eval-after-load 'markdown-mode (define-key markdown-mode-map (kbd "C-c i l") 'insert-link-with-title))
+(with-eval-after-load 'org (define-key org-mode-map (kbd "C-c i l") 'insert-link-with-title))
+(with-eval-after-load 'sgml-mode (define-key html-mode-map (kbd "C-c i l") 'insert-link-with-title))
 
 ;; If twittering-mode has been installed and loaded.
-(when (require 'twittering-mode nil 'no-error)
+(with-eval-after-load 'twittering-mode
   (defun twittering-share-link ()
     "Share link with twittering-edit-mode buffer,
 and insert page's title automatically.
@@ -90,7 +88,7 @@ directly without opening a new buffer."
     (interactive)
     (if (not (equal major-mode 'twittering-edit-mode))
         (twittering-update-status-interactive) nil)
-      (insert-link-with-title))
+    (insert-link-with-title))
   (define-key twittering-edit-mode-map (kbd "C-c i l") 'insert-link-with-title)
   (define-key twittering-mode-map (kbd "C-c i l") 'twittering-share-link))
 
