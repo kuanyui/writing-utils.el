@@ -20,8 +20,8 @@
     ;; multi-byte characters.
     (end-of-line) (insert "\n" text)
     (beginning-of-line) (right-char cur-col)))
-(global-set-key (kbd "C-c l") 'duplicate-line)  ;; VSCode style
-(global-set-key (kbd "C-c d l") 'duplicate-line)
+;; (global-set-key (kbd "C-c l") 'duplicate-line)  ;; VSCode style
+;; (global-set-key (kbd "C-c d l") 'duplicate-line)
 
 (defun move-current-line-up ()
   (interactive)
@@ -34,8 +34,8 @@
       (insert cur-line "\n")
       (forward-line -1)
       (goto-char (+ cur-col (point-at-bol))))))
-(global-set-key (kbd "M-<up>") 'move-current-line-up)
-(global-set-key (kbd "ESC <up>") 'move-current-line-up)
+;; (global-set-key (kbd "M-<up>") 'move-current-line-up)
+;; (global-set-key (kbd "ESC <up>") 'move-current-line-up)
 (defun move-current-line-down ()
   (interactive)
   (when (not (eq (line-number-at-pos)
@@ -47,8 +47,8 @@
       (insert cur-line "\n")
       (forward-line -1)
       (goto-char (+ cur-col (point-at-bol))))))
-(global-set-key (kbd "M-<down>") 'move-current-line-down)
-(global-set-key (kbd "ESC <down>") 'move-current-line-down)
+;; (global-set-key (kbd "M-<down>") 'move-current-line-down)
+;; (global-set-key (kbd "ESC <down>") 'move-current-line-down)
 
 (defun copy-current-line ()
   "Copy current line into kill-ring."
