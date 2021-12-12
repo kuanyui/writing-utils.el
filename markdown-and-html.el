@@ -10,17 +10,20 @@
       (delete-region begin end)
       (goto-char begin))
     (insert (format "<span class=\"note\">%s<span class=\"content\">%s</span></span>" title content))))
-(define-key markdown-mode-map (kbd "C-c i n") 'html-insert-inline-note)
 
 (defun html-insert-strike (begin end)
   (interactive "r")
   (if (region-active-p)
       (let ((text (buffer-substring-no-properties begin end)))
-        (delete-region begin end)
-        (goto-char begin)
-        (insert (format "<strike>%s</strike>" text)))
+	(delete-region begin end)
+	(goto-char begin)
+	(insert (format "<strike>%s</strike>" text)))
     (insert "<strike>"(read-from-minibuffer "Striked text: ")"</strike>")))
-(define-key markdown-mode-map (kbd "C-c i s") 'html-insert-strike)
+
+(with-eval-after-load 'markdown-mode
+  (define-key markdown-mode-map (kbd "C-c i n") 'html-insert-inline-note)
+  (define-key markdown-mode-map (kbd "C-c i s") 'html-insert-strike)
+  )
 
 (defface html-strike '((((class color) (background light)) (:foreground "#626262"))
                        (((class color) (background dark)) (:foreground "#626262"))) "" :group 'faces)

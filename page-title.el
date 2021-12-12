@@ -8,12 +8,10 @@
 (require 'html-entities-convert)
 (require 'avoid-url-el)
 
-(with-eval-after-load 'recentf
-  (add-to-list 'recentf-exclude "/tmp/url-retrieve-.+")
-  )
-
 (defun page-title-retrieve (url)
   (let* ((temp-file (format "%s%s" "/tmp/url-retrieve-" (random))))
+    (if (boundp 'recentf-exclude)
+	(add-to-list 'recentf-exclude "/tmp/url-retrieve-.+"))
     (wget url temp-file)
     (find-file temp-file)
     (goto-char (point-min))
@@ -27,7 +25,7 @@
     (message (format "%s" url-gotten-page-title))))
 
 
-
+;;;###autoload
 (defun insert-link-with-title ()
   "Insert link along with title (grabbed via url).
 Format is determined by what major mode is being used currently.
