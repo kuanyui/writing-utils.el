@@ -3,7 +3,7 @@
 ;; Copyright (C) 2016  kuanyui
 
 ;; Author: kuanyui <azazabc123@gmail.com>
-;; Keywords: 
+;; Keywords:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -73,8 +73,10 @@ delete backward until the parent directory."
 
 (define-key minibuffer-local-completion-map (kbd "C-a") 'minibuffer-beginning-of-line)
 (define-key minibuffer-local-completion-map (kbd "M-DEL") 'minibuffer-backward-delete-word)
-
-
+(with-eval-after-load 'vertico
+  (define-key vertico-map (kbd "C-a") 'minibuffer-beginning-of-line)
+  (define-key vertico-map (kbd "M-DEL") 'minibuffer-backward-delete-word)
+  )
 ;; ======================================================
 ;; Enhancement for *Completions*
 ;; ======================================================
