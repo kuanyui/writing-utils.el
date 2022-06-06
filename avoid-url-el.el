@@ -38,7 +38,7 @@ after using."
 Retrieve url as a file to path (include filename, please)"
   `(if ,avoid-url-el
        (shell-command
-	(format "wget '%s' -O '%s' 1>/dev/null 2>/dev/null" ,url ,path))
+	(format "wget '%s' --user-agent=\"Mozilla/5.0 (X11; Linux x86_64; rv:101.0) Gecko/20100101 Firefox/101.0\" -O '%s' 1>/dev/null 2>/dev/null" ,url ,path))
      (url-copy-file ,url ,path)))
 
 (provide 'avoid-url-el)
